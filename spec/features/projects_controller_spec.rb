@@ -21,9 +21,9 @@ RSpec.feature "ProjectsController", type: :feature do
         expect(page).not_to have_content(project.name)
       end
     end
-    it "redirects the user to the homepage when not logged in" do
+    it "returns 403 when not logged in" do
       visit "/projects"
-      expect(page).to have_current_path("/")
+      expect(page.status_code).to be(403)
     end
   end
 

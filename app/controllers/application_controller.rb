@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
   def after_sign_up_path_for(resource)
     '/projects'
   end
+
+  def ensure_logged_in
+    render status: :forbidden, text: "You don't have permission to access that. If you are trying to access a project you created try logging in." if !current_user
+  end
 end
