@@ -1,4 +1,4 @@
-<%= link_to '/', class: "list-group-item" do %>
+<%= link_to '/', class: task_classes(task) do %>
   <%= task.name %>
-  <span class="complete-by">today</span>
+  <span class="complete-by"><%= days_from_today(task.complete_by) %></span>
 <% end %>

@@ -16,3 +16,21 @@
 div.field_with_errors label{
   color:red;
 }
+
+.task-completed{
+  background-color: #AADDAA;
+}
+
+.task-overdue{
+  background-color: #DDAAAA;
+}
+
+.task-warning{
+  background-color: #DDDDAA;
+}
+
+
+.complete-by{
+  font-style: italic;
+  float: right;
+}

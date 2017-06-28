@@ -4,14 +4,16 @@ RSpec.feature "TasksController", type: :feature do
   describe "task index" do
     it "Allows a logged in user to view only their tasks" do
       user = create_and_login_user('user','pass')
-      user2 = User.create(name:'a',email:'a',password:'a')
+      user2 = User.create(email:'a@b.c',password:'afgjuf')
       tasks = [Task.create(name:"Task 1", user:user, complete_by: Date.jd(Date.today.jd-5)),
-               Task.create(name:"Task 2", user:user), completed:true]
+               Task.create(name:"Task 2", user:user, completed:true),
+               Task.create(name:"Task 4", user:user, complete_by: Date.jd(Date.today.jd+1))]
+      dates = ['5 days ago', '', 'in 1 day']
       Task.create(name:"Task 3", user:user2)
       visit "/tasks"
       all('.list-group-item').each_with_index do |item, index|
         expect(item).to have_content(tasks[index].name)
-        expect(item).to have_content(tasks[index].complete_by_str)
+        expect(item).to have_content(dates[index])
         expect([:class].include?("task-completed")).to eq(!!tasks[index].completed)#Rspec treats nil differed from false
       end
       expect(page).not_to have_content("Task 3")
