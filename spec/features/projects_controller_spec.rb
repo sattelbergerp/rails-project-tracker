@@ -67,15 +67,15 @@ RSpec.feature "ProjectsController", type: :feature do
 
       project.tasks.each do |task|
         expect(page).to have_content(task.name)
-        expect(page).to have_content(task.complete_by_str)
+        expect(page).to have_content('today')
       end
     end
     it "does not let a user view a project they did not create" do
       user = create_and_login_user()
-      creator = User.create(name:"a",email:"a",password:"a")
+      creator = User.create(email:"a@mail.t",password:"addddd")
       project = Project.create(name: 'Test Project', description: "Test Description", user: creator)
-      visit "/projects/#{project.id}"
-      expect(page).to have_current_path("/projects")
+      visit project_path(project)
+      expect(page.status_code).to be(404)
     end
   end
   describe "project editing" do
