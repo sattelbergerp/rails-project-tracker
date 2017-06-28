@@ -11,7 +11,7 @@
   <%= f.fields_for :messages do |message_form| %>
     <div class="form-group">
       <%= message_form.label :message_type %>
-      <%= message_form.select :message_type, {'None' => '', 'Info' => 'info', 'Success' => 'success', 'Warning' => 'warning', 'Danger' => 'danger'}, class: 'form-control' %>
+      <%= message_form.select :message_type, {'None' => '', 'Info' => 'info', 'Success' => 'success', 'Warning' => 'warning', 'Danger' => 'danger'}, {}, class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= message_form.label :content %>
