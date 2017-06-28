@@ -9,6 +9,8 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    @project.messages.build
+    @project.messages.build
   end
 
   def create
@@ -38,7 +40,7 @@ class ProjectsController < ApplicationController
 
   private
   def project_params
-    params.require(:project).permit(:name, :description)
+    params.require(:project).permit(:name, :description, messages_attributes: [:message_type, :content, :id])
   end
 
   def set_project
