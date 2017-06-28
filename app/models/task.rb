@@ -7,6 +7,10 @@ class Task < ActiveRecord::Base
 
   validates :name, presence: true
 
+  def self.overdue
+    self.all.where('DATE(complete_by) < ?', Date.today)
+  end
+
   def validate_project_count
     if projects.count > 0
       return true

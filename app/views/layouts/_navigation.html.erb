@@ -16,11 +16,11 @@
       <ul class="nav navbar-nav">
         <% if current_user!=nil %>
           <%= header_link("Projects", projects_path) %>
-          <li class="dropdown <%= 'active' if current_page?(tasks_path)%>">
+          <li class="dropdown <%= 'active' if current_page?(tasks_path) || current_page?(overdue_tasks_path)%>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Overdue</a></li>
-              <%= header_link("Tasks", tasks_path) %>
+              <%= header_link("Overdue", overdue_tasks_path) %>
+              <%= header_link("All", tasks_path) %>
             </ul>
           </li>
           <%= header_link("New Project", new_project_path) %>

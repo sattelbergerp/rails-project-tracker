@@ -7,6 +7,11 @@ class TasksController < ApplicationController
     @tasks = current_user.tasks
   end
 
+  def index_overdue
+    @tasks = current_user.tasks.overdue
+    render 'index'
+  end
+
   def new
     @task = Task.new
   end
