@@ -22,7 +22,7 @@ RSpec.feature "ProjectsController", type: :feature do
       end
     end
     it "returns 403 when not logged in" do
-      visit "/projects"
+      visit projects_path
       expect(page.status_code).to be(403)
     end
   end
@@ -30,27 +30,27 @@ RSpec.feature "ProjectsController", type: :feature do
   describe "Creating Projects" do
     it "Allows the user to create a project" do
       user = create_and_login_user()
-      visit "/projects/new"
-      fill_in "name", with: "Test Project"
-      fill_in "description", with: "Test Description"
-      click_on "create-project"
+      visit new_project_path
+      fill_in "project_name", with: "Test Project"
+      fill_in "project_description", with: "Test Description"
+      click_on "Create Project"
       project = Project.last
-      expect(page).to have_current_path("/projects/#{project.id}")
+      expect(page).to have_current_path(project_path(project))
       expect(project.name).to eq("Test Project")
       expect(project.description).to eq("Test Description")
       expect(project.user).to eq(user)
     end
-    it "Redirects to homepage if not logged in" do
-      visit "/projects/new"
-      expect(page).to have_current_path("/")
+    it "returns 403 when not logged in" do
+      visit new_project_path
+      expect(page.status_code).to be(403)
     end
     it "Doesn't let a user create a project with an empty name" do
       user = create_and_login_user()
-      visit "/projects/new"
-      fill_in "name", with: ""
-      fill_in "description", with: "Test Description"
-      click_on "create-project"
-      expect(page).to have_current_path("/projects/new")
+      visit new_project_path
+      fill_in "project_name", with: ""
+      fill_in "project_description", with: "Test Description"
+      click_on "Create Project"
+      expect(page).to have_current_path(projects_path)
     end
   end
 
