@@ -1,1 +1,14 @@
-Task
+<h2><%= @task.name %></h2>
+<p>
+  <% if @task.completed %>
+    <span class="task-completed-lbl completed">Completed</span>
+  <% else %>
+    <span class="task-completed-lbl">Not Completed</span>
+  <% end %>
+  <span class="complete-by"><%= days_from_today(@task.complete_by) %></span>
+</p>
+<p><%= @task.description %></p>
+<h3>In projects:</h3>
+<ul class="list-group">
+  <%= render @task.projects %>
+</ul>

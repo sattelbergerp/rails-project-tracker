@@ -57,14 +57,14 @@ RSpec.feature "ProjectsController", type: :feature do
   describe "project view" do
     it "Shows the project and task infomation when logged in as the user that created it" do
       user = create_and_login_user()
-      project = Project.create(name: 'Test Project', description: "Test Description", user: user)
-      project.tasks.create(name: 'Test Task 1', user: user, complete_by: Date.today)
-      project.tasks.create(name: 'Test Task 2', user: user)
+      project = Project.create!(name: 'Test Project', description: "Test Description", user: user)
+      project.tasks.create!(name: 'Test Task 1', user: user, complete_by: Date.today)
+      project.tasks.create!(name: 'Test Task 2', user: user)
 
-      visit "/projects/#{project.id}"
+      visit project_path(project)
       expect(page).to have_content(project.name)
       expect(page).to have_content(project.description)
-
+      
       project.tasks.each do |task|
         expect(page).to have_content(task.name)
         expect(page).to have_content('today')

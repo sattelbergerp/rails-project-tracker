@@ -1,4 +1,4 @@
-<%= link_to '/', class: task_classes(task) do %>
+<%= link_to task_path(task), class: task_classes(task) do %>
   <%= task.name %>
   <span class="complete-by"><%= days_from_today(task.complete_by) %></span>
 <% end %>

@@ -66,59 +66,49 @@ RSpec.feature "TasksController", type: :feature do
       click_on "Create Task"
       expect(page).to have_current_path(tasks_path)
     end
-    it "does not allow an invalid date" do
-      user = create_and_login_user('user','pass')
-      project1 = Project.create(name: "Project 1", user:user)
-      visit "/tasks/new"
-      fill_in "name", with: "Test Task"
-      fill_in "description", with: "Test Description"
-      fill_in "complete-by", with: "sdfgh"
-      check "project_1"
-      click_on "create-task"
-      expect(page).to have_current_path("/tasks/new")
-    end
     it "Does not allow a user who is not logged in to create a new task" do
-      visit "/tasks/new"
-      expect(page).to have_current_path("/")
+      visit new_task_path
+      expect(page.status_code).to be(403)
     end
   end
 
   describe "view task" do
     it "Allows the user to view a task they created" do
       date = Date.jd(Date.today.jd+5)
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project1 = Project.create(name: "Project 1", user:user)
       task = project1.tasks.create(name: "Sample Task", description: "Sample Description", complete_by: date, completed: true, user:user)
       project2 = task.projects.create(name: "Project 2", user:user)
-      visit "/tasks/#{task.id}"
+      visit task_path(task)
 
       expect(page).to have_content("Sample Task")
       expect(page).to have_content("Sample Description")
-      expect(page).to have_content("5 day(s) from now")
-      expect(page).to have_content("Completed: Yes")
+      expect(page).to have_content("in 5 days")
+      expect(page).to have_content("Completed")
+      expect(page).not_to have_content("Not Completed")
       expect(page).to have_content("Project 1")
       expect(page).to have_content("Project 2")
     end
     it "shows completed_by as today if the complete_by date is today" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       date = Date.jd(Date.today.jd)
       task = Task.create(name: "Sample Task", description: "Sample Description", complete_by: date, user:user)
-      visit "/tasks/#{task.id}"
+      visit task_path(task)
       expect(page).to have_content("today")
     end
     it "shows completed_by as x days ago if the complete_by date is erlier than today" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       date = Date.jd(Date.today.jd-5)
       task = Task.create(name: "Sample Task", description: "Sample Description", complete_by: date, user:user)
-      visit "/tasks/#{task.id}"
-      expect(page).to have_content("5 day(s) ago")
+      visit task_path(task)
+      expect(page).to have_content("5 days ago")
     end
     it "does not let a user who did not create it view it" do
-      user = create_and_login_user('user','pass')
-      creator = User.create(name:'a',email:'a',password:'a')
+      user = create_and_login_user()
+      creator = User.create(email:'f@s.b',password:'asdfcs')
       task = Task.create(name: "Sample Task", description: "Sample Description", complete_by: Date.today, user:creator)
-        visit "/tasks/#{task.id}"
-        expect(page).to have_current_path("/tasks")
+      visit task_path(task)
+      expect(page.status_code).to eq(404)
     end
   end
   describe "edit task" do

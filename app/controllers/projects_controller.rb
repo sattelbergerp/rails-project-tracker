@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = current_user.projects.find_by(id: params[:id], user: current_user)
-    render status: :not_found, text: 'That project does not exist or was created by a different user.' if !@project
+    render status: :not_found, text: 'The requested project does not exist or was created by a different user.' if !@project
   end
 
 end
