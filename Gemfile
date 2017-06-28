@@ -48,6 +48,7 @@ group :development, :test do
   gem "pry"
   gem "guard-rspec", require: false
   gem "thin"
+  gem 'launchy'
 
   gem 'rspec-rails'
   gem "capybara"
