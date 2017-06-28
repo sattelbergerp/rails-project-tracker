@@ -113,20 +113,20 @@ RSpec.feature "TasksController", type: :feature do
   end
   describe "edit task" do
     it "Allows a user to edit their own task" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       task = Task.create(name: "Initial Name", description: "Initial Description", complete_by: Date.today, completed: true,user:user)
       project1 = task.projects.create(name: "Project 1", user:user)
       project2 = Project.create(name: "Project 2", user:user)
       project3 = task.projects.create(name: "Project 3", user:user)
-      visit "/tasks/#{task.id}/edit"
-      fill_in "name", with: "Updated Name"
-      fill_in "description", with: "Updated Description"
-      fill_in "complete-by", with: Date.rfc822 # Returns date of Mon, 1 Jan -4712
-      uncheck "project_1"
-      check "project_2"
-      uncheck "completed"
-      click_on "update-task"
-      expect(page).to have_current_path("/tasks/#{task.id}")
+      visit edit_task_path(task)
+      fill_in "task_name", with: "Updated Name"
+      fill_in "task_description", with: "Updated Description"
+      fill_in "task_complete_by", with: Date.rfc822 # Returns date of Mon, 1 Jan -4712
+      uncheck "task_project_ids_1"
+      check "task_project_ids_2"
+      uncheck "task_completed"
+      click_on "Update Task"
+      expect(page).to have_current_path(task_path(task))
       task.reload
       expect(task.name).to eq("Updated Name")
       expect(task.description).to eq("Updated Description")
@@ -136,51 +136,21 @@ RSpec.feature "TasksController", type: :feature do
       expect(task.projects.include?(project2)).to eq(true)
       expect(task.projects.include?(project3)).to eq(true)
     end
-    it "requires there to be a name" do
-      user = create_and_login_user('user','pass')
-      task = Task.create(name: "Initial Name", description: "Initial Description", complete_by: Date.today, user:user)
-      project1 = task.projects.create(name: "Project 1", user:user)
-      visit "/tasks/#{task.id}/edit"
-      fill_in "name", with: ""
-      click_on "update-task"
-      expect(page).to have_current_path("/tasks/#{task.id}/edit")
-    end
-    it "requires at least one project" do
-      user = create_and_login_user('user','pass')
-      task = Task.create(name: "Initial Name", description: "Initial Description", complete_by: Date.today, user:user)
-      project1 = task.projects.create(name: "Project 1", user:user)
-      visit "/tasks/#{task.id}/edit"
-      uncheck "project_1"
-      click_on "update-task"
-      expect(page).to have_current_path("/tasks/#{task.id}/edit")
-    end
-    it "does not allow an invalid date" do
-      user = create_and_login_user('user','pass')
-      project1 = Project.create(name: "Project 1", user:user)
-      task = project1.tasks.create(name:'a', user:user)
-      visit "/tasks/#{task.id}/edit"
-      fill_in "name", with: "Test Task"
-      fill_in "description", with: "Test Description"
-      fill_in "complete-by", with: "sfhdgjh"
-      check "project_1"
-      click_on "update-task"
-      expect(page).to have_current_path("/tasks/#{task.id}/edit")
-    end
     it "only lets a user edit a project they created" do
-      user = create_and_login_user('user','pass')
-      creator = User.create(name:'a',email:'a',password:'a')
+      user = create_and_login_user()
+      creator = User.create(email:'a@c.d',password:'asdfgh')
       task = Task.create(name: "Initial Name", description: "Initial Description", complete_by: Date.today, user:creator)
-      visit "/tasks/#{task.id}/edit"
-      expect(page).to have_current_path("/tasks")
+      visit edit_task_path(task)
+      expect(page.status_code).to eq(404)
     end
   end
   describe "delete task" do
     it "deletes the task" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       task = Task.create(name: "Initial Name", description: "Initial Description", complete_by: Date.today, user:user)
-      visit "/tasks/#{task.id}"
+      visit task_path(task)
       click_on "delete-task"
-      expect(page).to have_current_path("/tasks")
+      expect(page).to have_current_path(tasks_path)
       expect(Task.find_by(id: task.id)).to eq(nil)
     end
   end

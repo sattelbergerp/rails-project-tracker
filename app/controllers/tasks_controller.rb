@@ -22,6 +22,21 @@ class TasksController < ApplicationController
     end
   end
 
+  def update
+    #rails includes a blank project_id for some reason
+    if params[:task][:project_ids].count > 1 && @task.update(task_params)
+      redirect_to task_path(@task)
+    else
+      @task.errors[:projects] << 'must contain at least one project' unless params[:task][:project_ids].count > 1
+      render "edit"
+    end
+  end
+
+  def destroy
+    @task.delete
+    redirect_to tasks_path
+  end
+
   private
   def task_params
     params.require(:task).permit(:name, :description, :complete_by, :completed, project_ids: [])
