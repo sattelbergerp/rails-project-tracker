@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
 
   before_action :ensure_logged_in
-  before_action :set_project, only: [:show]
+  before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def index
     @projects = current_user.projects
@@ -18,6 +18,22 @@ class ProjectsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def update
+    if @project.update(project_params)
+      redirect_to project_path(@project)
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @project.tasks.each do |task|
+      task.delete if task.projects.count < 2
+    end
+    @project.delete
+    redirect_to projects_path
   end
 
   private

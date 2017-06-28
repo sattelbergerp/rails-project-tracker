@@ -83,20 +83,20 @@ RSpec.feature "ProjectsController", type: :feature do
       user = create_and_login_user()
       project = Project.create(name:"Initial Name", description:"Initial Description", user: user)
       visit "/projects/#{project.id}/edit"
-      fill_in "name", with: "Updated Name"
-      fill_in "description", with: "Updated Description"
-      click_on "update-project"
+      fill_in "project_name", with: "Updated Name"
+      fill_in "project_description", with: "Updated Description"
+      click_on "Update Project"
       project = Project.find(project.id)
-      expect(page).to have_current_path("/projects/#{project.id}")
+      expect(page).to have_current_path(project_path(project))
       expect(project.name).to eq("Updated Name")
       expect(project.description).to eq("Updated Description")
     end
     it "Doesn't allow another user to edit the project" do
       user = create_and_login_user()
-      creator = User.create(name:"a",email:"a",password:"a")
+      creator = User.create(email:"a@mm.fg",password:"abcdef")
       project = Project.create(name: 'Test Project', description: "Test Description", user: creator)
-      visit "/projects/#{project.id}/edit"
-      expect(page).to have_current_path("/projects")
+      visit edit_project_path(project)
+      expect(page.status_code).to be(404)
     end
   end
   describe "project deleting" do
