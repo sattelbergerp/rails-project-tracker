@@ -5,4 +5,7 @@ class Task < ActiveRecord::Base
 
   belongs_to :user
 
+  validates :name, presence: true
+  validates :projects, presence: {message: 'must contain at least one project'}
+
 end

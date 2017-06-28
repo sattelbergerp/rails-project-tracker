@@ -22,18 +22,18 @@ RSpec.feature "TasksController", type: :feature do
   describe "new task" do
     it "Allows a logged in user to create a new task" do
       date = Date.today
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project1 = Project.create(name: "Project 1", user:user)
       project2 = Project.create(name: "Project 2", user:user)
       project3 = Project.create(name: "Project 3", user:user)
-      visit "/tasks/new"
-      fill_in "name", with: "Test Task"
-      fill_in "description", with: "Test Description"
-      fill_in "complete-by", with: date.rfc822
-      check "completed"
-      check "project_2"
-      check "project_3"
-      click_on "create-task"
+      visit new_task_path
+      fill_in "task_name", with: "Test Task"
+      fill_in "task_description", with: "Test Description"
+      fill_in "task_complete_by", with: date.rfc822
+      check "task_completed"
+      check "task_project_ids_2"
+      check "task_project_ids_3"
+      click_on "Create Task"
 
       task = Task.last
       expect(task.name).to eq("Test Task")
@@ -43,28 +43,28 @@ RSpec.feature "TasksController", type: :feature do
       expect(task.projects.include?(project2)).to eq(true)
       expect(task.projects.include?(project3)).to eq(true)
       expect(task.projects.include?(project1)).to eq(false)
-      expect(page).to have_current_path("/tasks/#{task.id}")
+      expect(page).to have_current_path(task_path(task))
     end
     it "Does not allow the name to be blank" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project1 = Project.create(name: "Project 1", user:user)
       visit "/tasks/new"
-      fill_in "name", with: ""
-      fill_in "description", with: "Test Description"
-      fill_in "complete-by", with: Date.today.rfc822
-      check "project_1"
-      click_on "create-task"
-      expect(page).to have_current_path("/tasks/new")
+      fill_in "task_name", with: ""
+      fill_in "task_description", with: "Test Description"
+      fill_in "task_complete_by", with: Date.today.rfc822
+      check "task_project_ids_1"
+      click_on "Create Task"
+      expect(page).to have_current_path(tasks_path)
     end
     it "Requires at least one project to be checked" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project1 = Project.create(name: "Project 1", user:user)
-      visit "/tasks/new"
-      fill_in "name", with: "Name"
-      fill_in "description", with: "Test Description"
-      fill_in "complete-by", with: Date.rfc822
-      click_on "create-task"
-      expect(page).to have_current_path("/tasks/new")
+      visit new_task_path
+      fill_in "task_name", with: "Name"
+      fill_in "task_description", with: "Test Description"
+      fill_in "task_complete_by", with: Date.rfc822
+      click_on "Create Task"
+      expect(page).to have_current_path(tasks_path)
     end
     it "does not allow an invalid date" do
       user = create_and_login_user('user','pass')
