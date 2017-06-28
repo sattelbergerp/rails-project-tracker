@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.feature "ApplicationController", type: :feature do
   describe "Homepage" do
-    #it "loads the homepage" do
-    #  visit root_path
-    #  expect(page).to have_content("Project Tracker")
-    #  expect(page).to have_content("Login")
-    #  expect(page).to have_content("Signup")
-    #end
+    it "loads the homepage" do
+      visit root_path
+      expect(page).to have_content("Project Tracker")
+      expect(page).to have_content("Login")
+      expect(page).to have_content("Signup")
+    end
   end
   describe "Signup" do
     it "Sends the user to their projects page" do
