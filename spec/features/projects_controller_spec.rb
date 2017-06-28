@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature "ProjectsController", type: :feature do
   describe "Projects index" do
     it "lists the users projects when logged in" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       projects = [user.projects.create(name:"Test_Project_1"), user.projects.create(name:"Test_Project_2")]
 
       visit "/projects"
@@ -12,8 +12,8 @@ RSpec.feature "ProjectsController", type: :feature do
       end
     end
     it "does not list other users projects" do
-      user = User.create(name:"user", email: "mail", password: "pass")
-      user2 = create_and_login_user('user','pass')
+      user = User.create(email: "mail@mail.mail", password: "passwrod")
+      user2 = create_and_login_user()
       projects = [user.projects.create(name:"Test_Project_1"), user.projects.create(name:"Test_Project_2")]
 
       visit "/projects"
@@ -29,7 +29,7 @@ RSpec.feature "ProjectsController", type: :feature do
 
   describe "Creating Projects" do
     it "Allows the user to create a project" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       visit "/projects/new"
       fill_in "name", with: "Test Project"
       fill_in "description", with: "Test Description"
@@ -45,7 +45,7 @@ RSpec.feature "ProjectsController", type: :feature do
       expect(page).to have_current_path("/")
     end
     it "Doesn't let a user create a project with an empty name" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       visit "/projects/new"
       fill_in "name", with: ""
       fill_in "description", with: "Test Description"
@@ -56,7 +56,7 @@ RSpec.feature "ProjectsController", type: :feature do
 
   describe "project view" do
     it "Shows the project and task infomation when logged in as the user that created it" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project = Project.create(name: 'Test Project', description: "Test Description", user: user)
       project.tasks.create(name: 'Test Task 1', user: user, complete_by: Date.today)
       project.tasks.create(name: 'Test Task 2', user: user)
@@ -71,7 +71,7 @@ RSpec.feature "ProjectsController", type: :feature do
       end
     end
     it "does not let a user view a project they did not create" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       creator = User.create(name:"a",email:"a",password:"a")
       project = Project.create(name: 'Test Project', description: "Test Description", user: creator)
       visit "/projects/#{project.id}"
@@ -80,7 +80,7 @@ RSpec.feature "ProjectsController", type: :feature do
   end
   describe "project editing" do
     it "allows the user to edit a project they created" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project = Project.create(name:"Initial Name", description:"Initial Description", user: user)
       visit "/projects/#{project.id}/edit"
       fill_in "name", with: "Updated Name"
@@ -92,7 +92,7 @@ RSpec.feature "ProjectsController", type: :feature do
       expect(project.description).to eq("Updated Description")
     end
     it "Doesn't allow another user to edit the project" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       creator = User.create(name:"a",email:"a",password:"a")
       project = Project.create(name: 'Test Project', description: "Test Description", user: creator)
       visit "/projects/#{project.id}/edit"
@@ -101,7 +101,7 @@ RSpec.feature "ProjectsController", type: :feature do
   end
   describe "project deleting" do
     it "allows the user to delete a project they created" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project = Project.create(name:"Name", description:"Description", user: user)
       visit "/projects/#{project.id}"
       click_on "delete-project"
@@ -109,7 +109,7 @@ RSpec.feature "ProjectsController", type: :feature do
       expect(project2).to be(nil)
     end
     it "deletes tasks only associated with itself" do
-      user = create_and_login_user('user','pass')
+      user = create_and_login_user()
       project = Project.create(name:"Name", description:"Description", user: user)
       project2 = Project.create(name:"Name2", description:"Description", user: user)
       task1 = project.tasks.create(name:'Task 1', user: user)
