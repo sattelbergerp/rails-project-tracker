@@ -1,3 +1,9 @@
+<% if current_user.projects.count < 1 %>
+  <div class="alert alert-warning" role="alert">
+    You must have at least one project to create a task. Click
+    <%= link_to "here", new_project_path, class: 'alert-link' %> to create a project.
+  </div>
+<% end %>
 <%= form_for task do |f| %>
   <%= render partial: 'application/form_errors', locals: {object: task} %>
   <div class="form-group">
