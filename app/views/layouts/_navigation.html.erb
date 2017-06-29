@@ -28,6 +28,7 @@
         <% else %>
           <%= header_link("Login", new_user_session_path) %>
           <%= header_link("Signup", new_user_registration_path) %>
+          <%= header_link("Login with Github", user_github_omniauth_authorize_path) %>
         <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
