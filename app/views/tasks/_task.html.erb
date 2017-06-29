@@ -1,4 +1,10 @@
-<%= link_to task_path(task), class: task_classes(task) do %>
-  <%= task.name %>
+<% project||=nil #Make sure project is defined so we dont get an error %>
+<%= content_tag :li, class: task_classes(task), title: task.description do %>
+  <%= link_to task.name, task_path(task)%>
+  <%if project %>
+    <%= link_to "Edit", edit_project_task_path(project, task), class: 'btn btn-default' %>
+    <%= link_to "Remove", project_task_path(project, task), class: 'btn btn-danger', method: 'delete' %>
+  <% end %>
   <span class="complete-by"><%= days_from_today(task.complete_by) %></span>
+
 <% end %>

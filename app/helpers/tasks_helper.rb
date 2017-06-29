@@ -21,4 +21,12 @@ module TasksHelper
     end
     return classes
   end
+
+  def task_form(project, task)
+    if project
+      return form_for [project, task] {|f| yield(f)}
+    else
+      return form_for [task] {|f| yield(f)}
+    end
+  end
 end
