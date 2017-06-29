@@ -2,8 +2,12 @@
 <%= content_tag :li, class: task_classes(task), title: task.description do %>
   <%= link_to task.name, task_path(task)%>
   <%if project %>
-    <%= link_to "Edit", edit_project_task_path(project, task), class: 'btn btn-default' %>
-    <%= link_to "Remove", project_task_path(project, task), class: 'btn btn-danger', method: 'delete' %>
+    <%= link_to project_task_path(project, task), class: 'btn btn-danger task-list-btn', method: 'delete' do%>
+      <span class="glyphicon glyphicon-minus"></span>
+    <% end %>
+    <%= link_to edit_project_task_path(project, task), class: 'btn btn-default task-list-btn' do %>
+      <span class="glyphicon glyphicon-edit"></span>
+    <% end %>
   <% end %>
   <span class="complete-by"><%= days_from_today(task.complete_by) %></span>
 
