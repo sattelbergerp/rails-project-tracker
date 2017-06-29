@@ -9,10 +9,10 @@ A rails version of a project tracker I wrote in sinatra. It has a few added feat
 ### Installation
 
     git clone https://github.com/sattelbergerp/rails-project-tracker.git
-  cd rails-project-tracker
-  bundle install
-  rake db:migrate
-  rails s
+    cd rails-project-tracker
+    bundle install
+    rake db:migrate
+    rails s
 
-For github login you must set GITHUB_KEY and GITHUB_SECRET
+For github login you must set GITHUB_KEY and GITHUB_SECRET environment variables
 Your Authorization callback URL must be set to 'http://localhost:3000/'
