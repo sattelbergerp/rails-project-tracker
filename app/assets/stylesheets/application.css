@@ -29,6 +29,14 @@ div.field_with_errors label{
   background-color: #DDDDAA;
 }
 
+.right{
+  float: right;
+}
+
+.inline{
+  display: inline;
+}
+
 .task-list-btn{
   float: right;
   font-size: 16px;
