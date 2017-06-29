@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :ensure_logged_in
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   #Check to see if we are in a nested url and set the project if we are
-  before_action :set_project, only: [:edit, :update, :destroy]
+  before_action :set_project, only: [:edit, :update, :destroy, :create]
 
   def index
     @tasks = current_user.tasks
@@ -21,11 +21,20 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     #rails includes a blank project_id for some reason
-    if params[:task][:project_ids].count > 1 && @task.save
-      redirect_to task_path(@task)
+    if (@project || params[:task][:project_ids].count > 1) && @task.save
+      @task.projects << @project if @project && !@task.projects.include?(@project)
+      if @project
+        redirect_to project_path(@project)
+      else
+        redirect_to task_path(@task)
+      end
     else
-      @task.errors[:projects] << 'must contain at least one project' unless params[:task][:project_ids].count > 1
-      render "new"
+      @task.errors[:projects] << 'must contain at least one project' if params[:task][:project_ids] && params[:task][:project_ids].count < 2
+      if @project
+        redirect_to project_path(@project)
+      else
+        render "new"
+      end
     end
   end
 
