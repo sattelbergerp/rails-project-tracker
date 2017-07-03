@@ -9,11 +9,16 @@ class Project < ActiveRecord::Base
 
   validates :name, presence: true
 
-  accepts_nested_attributes_for :messages
-
   def tasks_by_priority()
     #Array must ber compacted to remove trailing nil value
     return project_tasks.order("project_tasks.priority DESC").collect {|v|v.task}.compact
+  end
+
+  def messages_attributes=(messages_attrs)
+    messages.destroy_all
+    messages_attrs.each do |key, message_hash|
+      messages.build(message_hash) if message_hash[:message_type] && !message_hash[:message_type].empty?
+    end
   end
 
 end

@@ -10,6 +10,9 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.messages.build
+  end
+
+  def edit
     @project.messages.build
   end
 

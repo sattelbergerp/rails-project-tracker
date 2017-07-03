@@ -17,6 +17,10 @@ div.field_with_errors label{
   color:red;
 }
 
+#project-messages{
+  margin-top: 10px;
+}
+
 .task-completed{
   background-color: #AADDAA;
 }
