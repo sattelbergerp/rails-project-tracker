@@ -39,9 +39,11 @@ class TasksController < ApplicationController
   end
 
   def update
+    #raise params.inspect
     #rails includes a blank project_id for some reason
     if params[:task][:project_ids].count > 1 && @task.update(task_params)
       if @project
+        @project_task.update(project_task_params) if @project_task
         redirect_to project_path(@project)
       else
         redirect_to task_path(@task)
@@ -70,6 +72,10 @@ class TasksController < ApplicationController
     params.require(:task).permit(:name, :description, :complete_by, :completed, project_ids: [])
   end
 
+  def project_task_params
+    params.require(:project_task).permit(:priority)
+  end
+
   def set_task
     @task = current_user.tasks.find_by(id: params[:id])
     render status: :not_found, text: 'The requested task does not exist or was created by a different user.' if !@task
@@ -79,6 +85,7 @@ class TasksController < ApplicationController
     #Simply behave as if the project is not there if for some reason we can't find it
     #this should never happen and should not matter if it does
     @project = current_user.projects.find_by(id: params[:project_id])
+    @project_task = @project.project_tasks.find_by(task_id: @task.id) if @task && @project
   end
 
 end

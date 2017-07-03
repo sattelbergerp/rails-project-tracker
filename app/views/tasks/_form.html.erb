@@ -1,3 +1,4 @@
+<%= project_task.inspect %>
 <% if current_user.projects.count < 1 %>
   <div class="alert alert-warning" role="alert">
     You must have at least one project to create a task. Click
@@ -14,6 +15,14 @@
     <%= f.label :description %>
     <%= f.text_area :description, class: 'form-control' %>
   </div>
+  <% if project_task %>
+    <div class="form-group">
+      <% #I regret nothing %>
+      <%= label_tag 'project_task_priority', 'Project Specific Priority' %>
+      <%= number_field_tag "project_task[priority]", project_task.priority, class: 'form-control', id: 'project_task_priority', min: -1000, max: 1000 %>
+      <small id="emailHelp" class="form-text text-muted">Projects with higher priority will show up at the top of the list (Only applies to this project).</small>
+    </div>
+  <% end %>
   <div class="form-group">
     <%= f.label :complete_by %>
     <%= f.date_field :complete_by, class: 'form-control' %>

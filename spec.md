@@ -5,7 +5,7 @@ Specs:
 - [X] Include at least one has_many relationship (project as many project messages)
 - [X] Include at least one belongs_to relationship (Project belongs to User)
 - [X] Include at least one has_many through relationship (Project and tasks are many-to many)
-- [ ] The "through" part of the has_many through includes at least one user submittable attribute (So cant really see a way to do this with my current application that would make any degree of sense. 100% my bad for not reading this file first thing)
+- [X] The "through" part of the has_many through includes at least one user submittable attribute (~~Not Implemented~~ Duct taped in)
 - [X] Include reasonable validations for simple model objects (list of model objects with validations e.g. User, Recipe, Ingredient, Item)
 - [X] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
 - [X] (Can it use accepts nested attributes for?)Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)

@@ -12,7 +12,7 @@
 <p><%= @project.description %></p>
 <h3>Tasks</h3>
 <ul class="list-group">
-  <%= render partial: "tasks/task", collection: @project.tasks, locals: {project: @project} %>
+  <%= render partial: "tasks/task", collection: @project.tasks_by_priority, locals: {project: @project} %>
   <li class="list-group-item">
     <%= form_for [@project, Task.new] do |f|%>
       <%= f.text_field :name, placeholder: 'New Task Name (ENTER to create)', class: 'form-control'%>
