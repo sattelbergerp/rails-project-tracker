@@ -21,8 +21,9 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     #rails includes a blank project_id for some reason
+    #params[:task][:project_ids].count > 1
     if (@project || params[:task][:project_ids].count > 1) && @task.save
-      @task.projects << @project if @project && !@task.projects.include?(@project)
+      @task.add_project(@project)
       if @project
         redirect_to project_path(@project)
       else
@@ -41,7 +42,8 @@ class TasksController < ApplicationController
   def update
     #raise params.inspect
     #rails includes a blank project_id for some reason
-    if params[:task][:project_ids].count > 1 && @task.update(task_params)
+    #params[:task][:project_ids].count > 1 &&
+    if @task.update(task_params)
       if @project
         @project_task.update(project_task_params) if @project_task
         redirect_to project_path(@project)
