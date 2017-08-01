@@ -21,35 +21,21 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     #rails includes a blank project_id for some reason
-    #params[:task][:project_ids].count > 1
     if (@project || params[:task][:project_ids].count > 1) && @task.save
       @task.add_project(@project)
-      if @project
-        redirect_to project_path(@project)
-      else
-        redirect_to task_path(@task)
-      end
+      @project ? redirect_to(project_path(@project)) : redirect_to(task_path(@task))
     else
       @task.errors[:projects] << 'must contain at least one project' if params[:task][:project_ids] && params[:task][:project_ids].count < 2
-      if @project
-        redirect_to project_path(@project)
-      else
-        render "new"
-      end
+      @project ? redirect_to(project_path(@project)) : render("new")
     end
   end
 
   def update
     #raise params.inspect
     #rails includes a blank project_id for some reason
-    #params[:task][:project_ids].count > 1 &&
-    if @task.update(task_params)
-      if @project
-        @project_task.update(project_task_params) if @project_task
-        redirect_to project_path(@project)
-      else
-        redirect_to task_path(@task)
-      end
+    if params[:task][:project_ids].count > 1 && @task.update(task_params)
+      @project_task.update(project_task_params) if @project && @project_task
+      @project ? redirect_to(project_path(@project)) : redirect_to(task_path(@task))
     else
       @task.errors[:projects] << 'must contain at least one project' unless params[:task][:project_ids].count > 1
       render "edit"
@@ -62,11 +48,7 @@ class TasksController < ApplicationController
     else
       @project.tasks.delete(@task)
     end
-    if @project
-      redirect_to project_path(@project)
-    else
-      redirect_to tasks_path
-    end
+    @project ? redirect_to(project_path(@project)) : redirect_to(tasks_path)
   end
 
   private
