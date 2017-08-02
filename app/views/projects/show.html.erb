@@ -1,5 +1,5 @@
 <div class="clearfix">
-  <h2 class="inline" ><%= @project.name %></h2>
+  <h2 class="inline" id="project-name"></h2>
   <%= link_to "Edit", edit_project_path(@project), id: 'edit-project', class: 'btn btn-default right'%>
 </div>
 
@@ -11,7 +11,7 @@
   <% end %>
 </div>
 
-<p><%= @project.description %></p>
+<p id="project-description"></p>
 <h3>Tasks</h3>
 <ul class="list-group">
   <%= render partial: "tasks/task", collection: @project.tasks_by_priority, locals: {project: @project} %>
@@ -22,3 +22,9 @@
   </li>
 </ul>
 <%= link_to "Delete", project_path(@project), method: 'delete', id: 'delete-project', class: 'btn btn-danger'%>
+
+<script>
+  $(function(){
+    showProject(<%= @project.id %>);
+  });
+</script>
