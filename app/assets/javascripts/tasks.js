@@ -8,8 +8,9 @@ function loadTasksIndex(filter){
   });
 }
 
-function Task(data){
+function Task(data, project_id){
   this.data = data;
+  this.project_id = project_id;
 }
 
 Task.prototype.daysTillCompleteBy = function(){
@@ -36,8 +37,13 @@ Task.prototype.classes = function(){
 }
 
 Task.prototype.buildHTML = function(){
-  var html = '<a class="'+this.classes()+'" href="'+this.data.html_url+'">';
-  html += this.data.name;
+  var html = '<li class="'+this.classes()+'">';
+  html += '<a href="'+this.data.html_url+'">' + this.data.name + '</a>';
+  if(this.project_id){
+    html+='<a class="btn btn-danger task-list-btn" rel="nofollow" data-method="delete" href="/projects/'+this.project_id+'/tasks/'+this.data.id+'">';
+    html+='<span class="glyphicon glyphicon-minus"></span></a>';
+    html+='<a class="btn btn-default task-list-btn" href="/projects/'+this.project_id+'/tasks/'+this.data.id+'/edit"><span class="glyphicon glyphicon-edit"></span></a>';
+  }
   if(this.data.complete_by)html += '<span class="complete-by">'+this.formattedCompleteBy()+'</span>';
-  return html + '</a>';
+  return html + '</li>';
 }
