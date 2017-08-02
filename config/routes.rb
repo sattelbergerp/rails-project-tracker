@@ -4,6 +4,5 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks, only: [:create, :edit, :update, :destroy]
   end
-  get '/tasks/overdue' => 'tasks#index_overdue', as: 'overdue_tasks'
   resources :tasks
 end

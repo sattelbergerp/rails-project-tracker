@@ -1,3 +1,9 @@
-<ul class="list-group">
-  <%= render @tasks %>
+
+<ul class="list-group" id="tasks-list">
+
 </ul>
+<script>
+  $(function(){
+    loadTasksIndex('all');
+  });
+</script>
