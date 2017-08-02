@@ -9,6 +9,13 @@ class TasksController < ApplicationController
     @tasks = current_user.tasks
   end
 
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render :json => @task }
+    end
+  end
+
   def index_overdue
     @tasks = current_user.tasks.overdue
     render 'index'
