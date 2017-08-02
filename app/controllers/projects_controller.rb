@@ -12,6 +12,13 @@ class ProjectsController < ApplicationController
     @project.messages.build
   end
 
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render :json => @project }
+    end
+  end
+
   def edit
     @project.messages.build
   end
