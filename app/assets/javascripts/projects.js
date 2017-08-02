@@ -14,5 +14,13 @@ function showProject(id){
     $('#next-project')[data.next_id? 'show' : 'hide']();//hide if next_id is null
     $('#prev-project').data('id', data.prev_id);
     $('#prev-project')[data.prev_id? 'show' : 'hide']();//hide if prev_id is null
+    $('#new-task').data('project-id', id);
+  });
+}
+
+function addTaskToProjectFromFormData(projectId, formData, callback){
+  $.post('/projects/'+projectId + '/tasks', formData, function(data){
+    $('#project-tasks').append(new Task(data, projectId).buildHTML());
+    callback(data);
   });
 }

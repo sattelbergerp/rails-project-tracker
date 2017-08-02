@@ -41,7 +41,7 @@ class TasksController < ApplicationController
     #rails includes a blank project_id for some reason
     if (@project || params[:task][:project_ids].count > 1) && @task.save
       @task.add_project(@project)
-      @project ? redirect_to(project_path(@project)) : redirect_to(task_path(@task))
+      @project ? render(json: @task) : redirect_to(task_path(@task))
     else
       @task.errors[:projects] << 'must contain at least one project' if params[:task][:project_ids] && params[:task][:project_ids].count < 2
       @project ? redirect_to(project_path(@project)) : render("new")

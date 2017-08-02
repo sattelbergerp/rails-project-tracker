@@ -12,8 +12,12 @@
 
 <p id="project-description"></p>
 <h3>Tasks</h3>
-<ul class="list-group" id='project-tasks'>
-
+<ul class="list-group">
+  <div id='project-tasks'></div>
+  <!--<form class="list-group-item" id="new-task"><input type="text" placeholder="New task" class="form-control"></form>-->
+  <%= form_for Task.new, html: {class: 'list-group-item', id: 'new-task'} do |f| %>
+    <%= f.text_field :name, placeholder: 'New task', class: 'form-control', id: 'new-task-name' %>
+  <% end %>
 </ul>
 <%= link_to "Delete", project_path(@project), method: 'delete', id: 'delete-project', class: 'btn btn-danger'%>
 
@@ -22,6 +26,12 @@
     showProject(<%= @project.id %>);
     $('.js-show-project').click(function(){
       showProject($(this).data().id);
+    });
+    $('#new-task').submit(function(event){
+      event.preventDefault();
+      addTaskToProjectFromFormData($(this).data().projectId, $(this).serialize(), function(){
+        $('#new-task-name').val('');
+      });
     });
   });
 </script>
