@@ -6,7 +6,19 @@ class TasksController < ApplicationController
   before_action :set_project, only: [:edit, :update, :destroy, :create]
 
   def index
-    @tasks = current_user.tasks
+    case params[:filter]
+    when "overdue"
+      @tasks = current_user.tasks.overdue
+    when "completed"
+      @tasks = current_user.tasks.completed
+    when "not_completed"
+      @tasks = current_user.tasks.not_completed
+    when "due_today"
+      @tasks = current_user.tasks.due_today
+    else
+        @tasks = current_user.tasks
+    end
+
     respond_to do |format|
       format.html
       format.json { render :json => @tasks }
