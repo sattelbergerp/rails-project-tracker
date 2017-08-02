@@ -22,8 +22,17 @@ function showProject(id){
   });
 }
 
+var addTaskLoadCount = 0;
+
 function addTaskToProjectFromFormData(projectId, formData){
+  addTaskLoadCount ++;
+  $('#new-task-button-icon').hide();
+  $('#new-task-button-loader').show();
   $.post('/projects/'+projectId + '/tasks', formData, function(data){
     $('#project-tasks').append(new Task(data, projectId).buildHTML());
+    addTaskLoadCount --;
+    if(addTaskLoadCount > 0)return;
+    $('#new-task-button-loader').hide();
+    $('#new-task-button-icon').show();
   });
 }

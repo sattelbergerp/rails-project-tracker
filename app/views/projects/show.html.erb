@@ -19,18 +19,24 @@
     <!--<form class="list-group-item" id="new-task"><input type="text" placeholder="New task" class="form-control"></form>-->
     <%= form_for Task.new, html: {class: 'list-group-item', id: 'new-task'} do |f| %>
       <%= f.text_field :name, placeholder: 'New task', class: 'form-control', id: 'new-task-name' %>
+      <button type="submit" class="new-task-button">
+        <span class="glyphicon glyphicon-plus" id='new-task-button-icon'></span>
+        <div class="loading" id='new-task-button-loader'></div>
+      </button>
     <% end %>
   </ul>
   <%= link_to "Delete", project_path(@project), method: 'delete', id: 'delete-project', class: 'btn btn-danger'%>
 </div>
 <script>
   $(function(){
+    $('#new-task-button-loader').hide();
     showProject(<%= @project.id %>);
     $('.js-show-project').click(function(){
       showProject($(this).data().id);
     });
     $('#new-task').submit(function(event){
       event.preventDefault();
+      if($('#new-task-name').val()=='')return;
       addTaskToProjectFromFormData($(this).data().projectId, $(this).serialize());
       $('#new-task-name').val('');
     });

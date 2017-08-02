@@ -51,6 +51,30 @@ div.field_with_errors label{
   margin-right: -5px;
 }
 
+#new-task {
+  position: relative;
+}
+
+.new-task-button {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    font-size: 16px;
+    z-index: 10;
+}
+
+#new-task-button-loader{
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  border-top: 1px solid red;
+}
+
 .complete-by{
   font-style: italic;
   float: right;
