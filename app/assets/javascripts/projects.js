@@ -10,5 +10,9 @@ function showProject(id){
     data.tasks.forEach(function(task){
       $('#project-tasks').append(new Task(task, id).buildHTML());
     });
+    $('#next-project').data('id', data.next_id);
+    $('#next-project')[data.next_id? 'show' : 'hide']();//hide if next_id is null
+    $('#prev-project').data('id', data.prev_id);
+    $('#prev-project')[data.prev_id? 'show' : 'hide']();//hide if prev_id is null
   });
 }
