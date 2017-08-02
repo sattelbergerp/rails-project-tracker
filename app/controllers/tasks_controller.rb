@@ -66,7 +66,7 @@ class TasksController < ApplicationController
     else
       @project.tasks.delete(@task)
     end
-    @project ? redirect_to(project_path(@project)) : redirect_to(tasks_path)
+    @project ? render(status: 200) : redirect_to(tasks_path)
   end
 
   private
