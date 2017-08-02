@@ -1,5 +1,11 @@
+var tasksIndexLoadingCount = 0;
+
 function loadTasksIndex(filter){
+  tasksIndexLoadingCount++;
+  $('#tasks-list').html('<div class="loading" ></div>');
   $.get('/tasks.json?filter='+filter, function(data){
+    tasksIndexLoadingCount--;
+    if(tasksIndexLoadingCount > 0)return;
     $('#tasks-list').text('');
     data.forEach(function(taskData){
       var task = new Task(taskData);

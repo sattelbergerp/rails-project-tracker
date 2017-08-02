@@ -18,9 +18,8 @@ function showProject(id){
   });
 }
 
-function addTaskToProjectFromFormData(projectId, formData, callback){
+function addTaskToProjectFromFormData(projectId, formData){
   $.post('/projects/'+projectId + '/tasks', formData, function(data){
     $('#project-tasks').append(new Task(data, projectId).buildHTML());
-    callback(data);
   });
 }

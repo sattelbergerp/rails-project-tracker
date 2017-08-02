@@ -55,3 +55,18 @@ div.field_with_errors label{
   font-style: italic;
   float: right;
 }
+
+.loading{
+  border: 3px solid #FFF;
+  border-top: 3px solid #DDD;
+  width: 64px;
+  height: 64px;
+  margin: 20px auto;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin{
+  0%{transform: rotate(0deg);}
+  100%{transform: rotate(360deg);}
+}

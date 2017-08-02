@@ -14,4 +14,9 @@ class ApplicationController < ActionController::Base
   def ensure_logged_in
     render status: :forbidden, text: "You don't have permission to access that. If you are trying to access a project you created try logging in." if !current_user
   end
+
+  before_action :fakelag
+  def fakelag
+    sleep 1.0
+  end
 end

@@ -29,9 +29,8 @@
     });
     $('#new-task').submit(function(event){
       event.preventDefault();
-      addTaskToProjectFromFormData($(this).data().projectId, $(this).serialize(), function(){
-        $('#new-task-name').val('');
-      });
+      addTaskToProjectFromFormData($(this).data().projectId, $(this).serialize());
+      $('#new-task-name').val('');
     });
   });
 </script>
