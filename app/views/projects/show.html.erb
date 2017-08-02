@@ -3,13 +3,7 @@
   <%= link_to "Edit", edit_project_path(@project), id: 'edit-project', class: 'btn btn-default right'%>
 </div>
 
-<div id="project-messages">
-  <% @project.messages.each do |message| %>
-    <% if !message.message_type.blank? %>
-    <div class="alert alert-<%= message.message_type %>"><%= message.content %></div>
-    <% end %>
-  <% end %>
-</div>
+<div id="project-messages"></div>
 
 <p id="project-description"></p>
 <h3>Tasks</h3>
