@@ -1,10 +1,22 @@
-
+<div class="clearfix">
+  <h2 class="inline">Tasks</h2>
+  <select class="right" name="filter" id="filter">
+    <option value="all">All</option>
+    <option value="overdue">Overdue</option>
+    <option value="due_today">Due Today</option>
+    <option value="completed">Completed</option>
+    <option value="not_completed">Not Completed</option>
+  </select>
+</div>
 <ul class="list-group" id="tasks-list">
   Loading tasks...
 </ul>
 
 <script>
   $(function(){
-    loadTasksIndex('all');
+    loadTasksIndex($('#filter').val());
+    $('#filter').change(function(){
+      loadTasksIndex($(this).val());
+    });
   });
 </script>
