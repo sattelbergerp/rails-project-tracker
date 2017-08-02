@@ -7,6 +7,10 @@ class TasksController < ApplicationController
 
   def index
     @tasks = current_user.tasks
+    respond_to do |format|
+      format.html
+      format.json { render :json => @tasks }
+    end
   end
 
   def show
