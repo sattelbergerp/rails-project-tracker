@@ -1,4 +1,6 @@
 function showProject(id){
+  $('#project').hide();
+  $('#project-loading').show();
   $.get('/projects/'+id + '.json', function(data){
     $('#project-messages').html('');
     $('#project-tasks').html('');
@@ -15,6 +17,8 @@ function showProject(id){
     $('#prev-project').data('id', data.prev_id);
     $('#prev-project')[data.prev_id? 'show' : 'hide']();//hide if prev_id is null
     $('#new-task').data('project-id', id);
+    $('#project-loading').hide();
+    $('#project').show();
   });
 }
 
