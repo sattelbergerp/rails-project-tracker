@@ -1,4 +1,8 @@
 class ProjectSerializer < ActiveModel::Serializer
+
+  #Otherwise we can't use url helpers
+  include Rails.application.routes.url_helpers
+
   attributes :id, :name, :description
   attribute :next_id do
     id = object.id+1
@@ -25,6 +29,12 @@ class ProjectSerializer < ActiveModel::Serializer
       end
     end
     id
+  end
+  attribute :links do
+    {
+      edit: edit_project_path(object),
+      self: project_path(object)
+    }
   end
   has_many :tasks_by_priority, key: 'tasks'
   has_many :messages

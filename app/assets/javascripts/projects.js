@@ -17,6 +17,8 @@ function showProject(id){
     $('#prev-project').data('id', data.prev_id);
     $('#prev-project')[data.prev_id? 'show' : 'hide']();//hide if prev_id is null
     $('#new-task').data('project-id', id);
+    $('#edit-project').attr('href', data.links.edit);
+    $('#delete-project').attr('href', data.links.self);
     $('#project-loading').hide();
     $('#project').show();
   });

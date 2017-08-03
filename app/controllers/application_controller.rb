@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
 
   before_action :fakelag
   def fakelag
-    sleep 1.0
+    #sleep 1.0
   end
 end

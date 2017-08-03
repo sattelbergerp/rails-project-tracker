@@ -7,7 +7,7 @@
 
   <div class="clearfix">
     <h2 class="inline" id="project-name"></h2>
-    <%= link_to "Edit", edit_project_path(@project), id: 'edit-project', class: 'btn btn-default right'%>
+    <a class="btn btn-default right" id="edit-project">Edit</a>
   </div>
 
   <div id="project-messages"></div>
@@ -16,7 +16,6 @@
   <h3>Tasks</h3>
   <ul class="list-group">
     <div id='project-tasks'></div>
-    <!--<form class="list-group-item" id="new-task"><input type="text" placeholder="New task" class="form-control"></form>-->
     <%= form_for Task.new, html: {class: 'list-group-item', id: 'new-task'} do |f| %>
       <%= f.text_field :name, placeholder: 'New task', class: 'form-control', id: 'new-task-name' %>
       <button type="submit" class="new-task-button">
