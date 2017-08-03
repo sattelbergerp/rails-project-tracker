@@ -35,7 +35,7 @@
     });
     $('#new-task').submit(function(event){
       event.preventDefault();
-      if($('#new-task-name').val()=='')return;
+      if($('#new-task-name').val().trim()=='')return;
       addTaskToProjectFromFormData($(this).data().projectId, $(this).serialize());
       $('#new-task-name').val('');
     });
