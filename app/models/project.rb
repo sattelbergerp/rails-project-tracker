@@ -21,4 +21,32 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def next_id
+    id = self.id+1
+    max_id = nil;
+    while true
+      break if user.projects.exists?(id: id)
+      id+=1
+      max_id = user.projects.maximum(:id) unless max_id
+      if id > max_id
+        id=nil
+        break
+      end
+    end
+    id
+  end
+
+  def prev_id
+    id = self.id-1
+    while true
+      break if user.projects.exists?(id: id)
+      id-=1
+      if id < 1
+        id=nil
+        break
+      end
+    end
+    id
+  end
+
 end
